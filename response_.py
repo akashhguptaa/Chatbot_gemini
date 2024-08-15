@@ -29,7 +29,7 @@ def gemini_data(prompt):
   response = chat_session.send_message(prompt, stream=True)
   for chunks in response:
     data  = chunks.text.replace("*", "")
-    # print(data)
-  return response.text.replace("*", "")
+    yield data
+  # return response.text.replace("*", "")
 
 

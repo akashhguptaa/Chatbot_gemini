@@ -1,22 +1,22 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response, url_for
 from response_ import gemini_data
 
 app = Flask(__name__)
 
-def get_completion(prompt):
-    message = [{"role": "user", "content": prompt}]
-    response = gemini_data(prompt)
-    return response
-
 @app.route("/")
-def  home():
+def home():
     return render_template("index.html")
 
 @app.route("/get")
 def get_bot_response():
     userText = request.args.get('msg')
-    response = get_completion(userText)
-    return response
+    message = [{"role": "user", "content": userText}]
+    
+    def generate():
+        for response in gemini_data(userText):
+            yield f"data: {response}\n\n"
+
+    return Response(generate(), content_type='text/event-stream')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
