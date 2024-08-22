@@ -4,12 +4,25 @@ import sqlalchemy
 import json
 from sqlalchemy.orm.exc import NoResultFound
 
+start =  session.query(messages.id_).order_by(messages.id_.desc()).first()
+start = int((list(start))[0])
 
-def updating_data(new_data):
+def updating_data(new_data, id_no):
 
     try:
+
+        value = str(id_no)  # assuming `id_` is a string
+
+        # Use a database query to check if the value exists
+        exists = session.query(messages.id_).filter(messages.id_ == value).first() is not None
+
+        if exists == False:
+            message = messages(id_no, {})
+            session.add(message)
+            session.commit()
+
         # Fetch the message record by session_id
-        message_record = session.query(messages).filter_by(id_=1001).one()
+        message_record = session.query(messages).filter_by(id_= id_no).one()
 
         # Merging new data with the existing json_data in the database
         existing_data = message_record.chat_message
@@ -32,4 +45,4 @@ def updating_data(new_data):
         print(f"An error occurred: {e}")
     finally:
         session.close()
-# updating_data({4:{"User":  "adfkanjka", "Bot": "afnajkfka"}})
+

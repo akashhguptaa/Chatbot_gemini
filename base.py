@@ -18,4 +18,4 @@ class messages(Model):
         self.title = title
 
     def __repr__(self):
-        return f"({self.id_}) {self.chat_messages} ({self.title})"
+        return f"({self.id_}) {self.chat_message   } ({self.title})"

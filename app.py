@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, Response
 from response_ import chat_session
-from add_data import updating_data
+from queries import updating_data
+from queries import start
 
 app = Flask(__name__)
 
 count = 0
+
 
 #To generate the response
 def gemini_data(prompt, data_to_db):
@@ -18,10 +20,12 @@ def gemini_data(prompt, data_to_db):
     data_to_db[count]["Bot"] = response.text.replace("*", "")
     
     #Adding data to database
-    updating_data(data_to_db)
+    updating_data(data_to_db, start)
 
 @app.route("/")
 def home():
+    global start 
+    start += 1
     return render_template("index.html")
 
 
