@@ -1,12 +1,28 @@
 from main_db import session
 from base import messages
-import sqlalchemy
 import json
 from sqlalchemy.orm.exc import NoResultFound
+from response_ import chat_session
 
 start =  session.query(messages.id_).order_by(messages.id_.desc()).first()
 start = int((list(start))[0])
 
+
+#Function to update Title after some conversation
+def update_title(data, id_no):
+    query = "This is the conversation between bot and user, based on this conversation just give me the title, just title, thats it"
+    prompt = str(data) + query
+    response = chat_session.send_message(prompt)
+    new_title = response.text
+    
+    message_record = session.query(messages).filter_by(id_= id_no).one()
+    message_record.title = new_title
+
+    session.add(message_record)
+    session.commit()
+
+
+#function to add conversation in the database
 def updating_data(new_data, id_no):
 
     try:
@@ -21,6 +37,19 @@ def updating_data(new_data, id_no):
             session.add(message)
             session.commit()
 
+        #to change the title after some conversatoin
+        Titles = session.query(messages.title).filter(messages.id_ == id_no)
+
+        for title in Titles:
+            if list(title) == ["new_chat"]:
+                conversation = session.query(messages.chat_message).filter(messages.id_ == id_no)
+                
+                for data in conversation:
+                    data = list(data)[0]
+            
+                    if len(data) > 2:
+                        update_title(data, id_no)
+
         # Fetch the message record by session_id
         message_record = session.query(messages).filter_by(id_= id_no).one()
 
@@ -33,7 +62,6 @@ def updating_data(new_data, id_no):
         message_record.chat_message = json.loads(json.dumps(existing_data))
 
         session.add(message_record)
-        # session.flush()
 
         session.commit()
         print("Data updated successfully.")

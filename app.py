@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 count = 0
 
-
 #To generate the response
 def gemini_data(prompt, data_to_db):
     response = chat_session.send_message(prompt, stream=True)
@@ -26,6 +25,7 @@ def gemini_data(prompt, data_to_db):
 def home():
     global start 
     start += 1
+    
     return render_template("index.html")
 
 
