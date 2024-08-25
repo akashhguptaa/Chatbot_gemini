@@ -1,46 +1,74 @@
 from main_db import session
 from base import messages
-from response_ import chat_session
+from flask import render_template, url_for, Flask, request, Response
+from response_ import model
 
+import json
+
+def old_memory(old_messages):
+    chat_session = model.start_chat(
+        history=[
+
+        ]
+    )
+    query = "This is the conversation between a bot and user now based on that answer the next questions"
+    response = chat_session.send_message( query + old_messages)
+    
+app = Flask(__name__)
 
 # Convert value to the same type as in the database
 id_no = "1008"  # assuming `id_` is a string
 
 # Use a database query to check if the value exists
-titles = session.query(messages.title).filter(messages.id_ == 1008)
+data = session.query(messages.chat_message, messages.title).filter(messages.id_ == 1003)
+# count = 0
+def gemini_data(prompt, data_to_db):
+    response = chat_session.send_message(prompt, stream=True)
+    for chunks in response:
+        data  = chunks.text.replace("*", "")
+        yield data
 
-for title in titles:
-    if list(title) == ["new_chat"]:
-        conversation = session.query(messages.chat_message).filter(messages.id_ == 1008)
-                
-        for data in conversation:
-            data = (list(data))[0]
-            # print(len(data))
-            if len(data) > 2:
-                print("data is not updating\n\n")
+    #adding bot response to database
+    data_to_db[count]["User"] = prompt
+    data_to_db[count]["Bot"] = response.text.replace("*", "")
+    
+    #Adding data to database
+    updating_data(data_to_db, start)
+    
+@app.route("/")
+def for_1004():
+    for i in data:
+        # count += 1
+        old_messages = list(i)[0]
+        old_memory(old_messages)
+        return render_template('old_chats.html', old_messages = old_messages)
 
-                query = "This is the conversation between bot and user, based on this conversation just give me the title, just title, thats it"
-                prompt = str(data) + query
-                response = chat_session.send_message(prompt)
-                new_title = response.text
-                
-                message_record = session.query(messages).filter_by(id_= 1008).one()
-                message_record.title = new_title
-                print(new_title)
-                session.add(message_record)
-                session.commit()
-            
+@app.route("/get")
+def get_bot_response():
 
-# query = "This is the conversation between bot and user, based on this conversation just give me the title, just title, thats it"
-# for message in titles:
-#     message = list(message)[0]
-#     prompt = str(message) + query
-#     if len(message) > 2:
-#         response = chat_session.send_message(prompt)
-#         print(response.text)
+    global count
 
-#     else:
-#         print("chota hai")
+    count +=  1
+    userText = request.args.get('msg')
+
+    data_to_db = {count : {}}
+    
+    message = [{"role": "user", "content": userText}]
+    
+    def generate():
+        for response in bot_res(userText, data_to_db):
+            yield f"data: {response}\n\n"
+
+    return Response(generate(), content_type='text/event-stream')
+if __name__ == "__main__":
+    app.run(debug = True, port = 8000)
+
+
+
+
+    
+
+
 
 
 

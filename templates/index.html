@@ -10,38 +10,46 @@
     />
   </head>
   <body>
-    <div>
+      <div class="sidebar">
+        <a href="#home\n">Home</a>
+        <a href="#tutorials">Tutorials</a>
+        <a href="#courses">Courses</a>
+        <a href="#jobs">Jobs</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="main">
         <button type="button">Click Me!</button>
         <h1 align="center"><b>AI-Gen ChatBot</b></h1>
         <h4 align="center">
-            <b>Please start your personalized interaction with the chatbot</b>
+          <b>Please start your personalized interaction with the chatbot</b>
         </h4>
         <p align="center">
-            <img
+          <img
             src="static\\image.jpg"
             alt="Python-BOT"
             height="210"
             width="220"
-            />
+          />
         </p>
-      <div class="boxed">
-        <div>
-          <div id="chatbox">
-            <p class="botText">
-              <span>Hi! I'm your AI-Generative Chatbot</span>
-            </p>
+        <div class="boxed">
+          <div>
+            <div id="chatbox">
+              <p class="botText">
+                <span>Hi! I'm your AI-Generative Chatbot</span>
+              </p>
+            </div>
+            <div id="userInput">
+              <input
+                id="textInput"
+                type="text"
+                name="msg"
+                placeholder="Message"
+              />
+            </div>
           </div>
-          <div id="userInput">
-            <input
-              id="textInput"
-              type="text"
-              name="msg"
-              placeholder="Message"
-            />
-          </div>
+          <script src="{{ url_for('static', filename='script.js') }}"></script>
         </div>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
       </div>
-    </div>
   </body>
 </html>

@@ -1,78 +1,124 @@
+/* Global Box-Sizing */
 * {
   box-sizing: border-box;
 }
 
-.button {
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: top-left;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
+/* General Body and HTML Styling */
 body,
 html {
   height: 100%;
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+  display: flex;
+  width: 88%;
 }
+
+/* Sidebar Styling */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 100vh;
+  background-color: #1b6e88;
+  color: #fff;
+  position: fixed;
+  padding: 15px;
+}
+
+/* Main Content Styling */
+.main {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 300px; /* Matches sidebar width */
+  width: 100%;
+}
+
+/* Chatbox Styling */
 #chatbox {
-  margin-left: auto;
-  margin-right: auto;
-  width: 40%;
-  margin-top: 60px;
+  width: 100%; /* Adjusted to make it wider */
+  /* margin: 60px auto 0 auto; */
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* User Input Styling */
 #userInput {
-  margin-left: auto;
-  margin-right: auto;
-  width: 40%;
-  margin-top: 60px;
+  width: 60%; /* Matches chatbox width */
+  margin: 20px auto;
 }
+
 #textInput {
-  width: 90%;
+  width: 100%;
   border: none;
   border-bottom: 3px solid black;
   font-family: monospace;
   font-size: 17px;
+
+  padding: 10px;
 }
+
+/* User and Bot Text Styling */
 .userText {
   color: white;
   font-family: monospace;
   font-size: 17px;
   text-align: right;
   line-height: 30px;
+  padding-left: 60px;
 }
+
 .userText span {
   background-color: #808080;
   padding: 10px;
-  border-radius: 2px;
+  border-radius: 5px;
+  display: inline-block;
 }
+
 .botText {
   color: white;
   font-family: monospace;
   font-size: 17px;
   text-align: left;
   line-height: 30px;
+  padding-right: 60px;
 }
+
 .botText span {
   background-color: #4169e1;
   padding: 10px;
-  border-radius: 2px;
+  border-radius: 5px;
+  display: inline-block;
 }
+
+/* Button Styling */
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: left; /* Updated from 'top-left' */
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #1b6e88; /* Matching the sidebar color */
+}
+
+/* Boxed Div Styling */
+.boxed {
+  width: 78%;
+  margin: 60px auto;
+  padding: 20px;
+  border: 1px solid green;
+  border-radius: 10px;
+}
+
+/* Tidbit Styling */
 #tidbit {
   position: absolute;
   bottom: 0;
   right: 0;
   width: 300px;
-}
-.boxed {
-  margin-left: auto;
-  margin-right: auto;
-  width: 78%;
-  margin-top: 60px;
-  border: 1px solid green;
 }
