@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, Response
 from response_ import chat_session
-from queries import updating_data
-from queries import start
+from queries import updating_data, start, get_data
+from last_msg import msg_index
+from main_db import session
+from base import messages
 
 app = Flask(__name__)
 
@@ -21,12 +23,17 @@ def gemini_data(prompt, data_to_db):
     #Adding data to database
     updating_data(data_to_db, start)
 
+def old_memory(old_messages):
+    
+    query = "This is the conversation between a bot and user now based on that answer the next questions"
+    response = chat_session.send_message( query + old_messages)
+
 @app.route("/")
 def home():
     global start 
     start += 1
-    
-    return render_template("index.html")
+    data = session.query(messages.chat_message, messages.title).filter(messages.id_)
+    return render_template("index.html", data = data)
 
 
 @app.route("/get")
@@ -46,6 +53,18 @@ def get_bot_response():
             yield f"data: {response}\n\n"
 
     return Response(generate(), content_type='text/event-stream')
+
+
+msg_start = msg_index()
+
+@app.route("/chat/<id_no>")
+def for_1004(id_no):
+    data = get_data(id_no)
+    for i in data:
+        msg_start += 1
+        old_messages = list(i)[0]
+        old_memory(str(old_messages))
+        return render_template('old_chats.html', old_messages=old_messages, data= data)
 
 if __name__ == "__main__":
     app.run(debug=True)

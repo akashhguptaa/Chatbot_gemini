@@ -74,3 +74,6 @@ def updating_data(new_data, id_no):
     finally:
         session.close()
 
+def get_data(id_no):
+    data = session.query(messages.chat_message, messages.title).filter(messages.id_==id_no)
+    return data

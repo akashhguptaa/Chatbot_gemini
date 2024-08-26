@@ -1,101 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content=
-        "width=device-width, initial-scale=1.0">
-    <title>
-        Create a Fixed Sidebar using HTML and CSS
-    </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
 
-        .container {
-            display: flex;
-        }
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+ 
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
 
-        .sidebar {
-            width: 200px;
-            height: 100vh;
-            background-color: #136a13;
-            color: #fff;
-            box-sizing: border-box;
-            position: fixed;
-        }
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
 
-        .content {
-            flex: 1;
-            padding: 20px;
-            box-sizing: border-box;
-            margin-left: 200px;
-            text-align: justify;
-        }
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
 
-        .sidebar a {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s;
-        }
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
 
-        /* Change background color on hover */
-        .sidebar a:hover {
-            background-color: #2980b9;
-        }
-    </style>
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+</style>
 </head>
-
 <body>
 
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <a href="#home">Home</a>
-            <a href="#tutorials">Tutorials</a>
-            <a href="#courses">Courses</a>
-            <a href="#jobs">Jobs</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
+<div class="sidebar">
+  <a </a>
+  <a href="#news">News</a>
+  <a href="#contact">Contact</a>
+  <a href="#about">About</a>
+</div>
 
-        <!-- Main Content -->
-        <div class="content">
-            <div id="home">
-                <h1>GeeksforGeeks</h1>
-                <p>
-                    GeeksforGeeks is a widely acclaimed online
-                    platform that serves as a learning resource
-                    for computer science and programming
-                    enthusiasts. Established in 2009 by Sandeep
-                    Jain, the platform has become a go-to destination
-                    for students, professionals, and educators seeking
-                    quality content related to computer science and
-                    programming.
-                </p>
-            </div>
+<div class="content">
+  <h2>Responsive Sidebar Example</h2>
+  <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
+  <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
+  <h3>Resize the browser window to see the effect.</h3>
+</div>
 
-            <div id="tutorials">
-                <h1>HTML</h1>
-                <p>
-                    HTML stands for HyperText Markup Language. It
-                    is used to design the web pages. With the help
-                    of HTML, you can create a complete website
-                    structure. HTML is the combination of Hypertext
-                    and Markup language. Hypertext defines the link
-                    between the web pages and markup language
-                    defines the text document within the tag that
-                    define the structure of web pages.
-                </p>
-            </div>
-        </div>
-    </div>
 </body>
-
 </html>

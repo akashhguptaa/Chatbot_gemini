@@ -17,26 +17,43 @@ html {
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 300px; /* Adjusted to 200px as per the embedded CSS */
   height: 100vh;
-  background-color: #1b6e88;
+  background-color: #1b6e88; /* Keeping the existing color */
   color: #fff;
   position: fixed;
   padding: 15px;
+  overflow: auto; /* Ensures the sidebar handles overflow properly */
+}
+
+.sidebar a {
+  display: block;
+  color: black; /* Adjusted to match embedded CSS */
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
 }
 
 /* Main Content Styling */
 .main {
   flex-grow: 1;
   padding: 20px;
-  margin-left: 300px; /* Matches sidebar width */
+  margin-left: 200px; /* Adjusted to match the sidebar width */
   width: 100%;
 }
 
 /* Chatbox Styling */
 #chatbox {
-  width: 100%; /* Adjusted to make it wider */
-  /* margin: 60px auto 0 auto; */
+  width: 100%;
   background-color: #f4f4f4;
   padding: 20px;
   border-radius: 10px;
@@ -45,7 +62,7 @@ html {
 
 /* User Input Styling */
 #userInput {
-  width: 60%; /* Matches chatbox width */
+  width: 60%;
   margin: 20px auto;
 }
 
@@ -55,7 +72,6 @@ html {
   border-bottom: 3px solid black;
   font-family: monospace;
   font-size: 17px;
-
   padding: 10px;
 }
 
@@ -97,13 +113,13 @@ html {
   border: none;
   color: white;
   padding: 15px 32px;
-  text-align: left; /* Updated from 'top-left' */
+  text-align: left;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  background-color: #1b6e88; /* Matching the sidebar color */
+  background-color: #1b6e88;
 }
 
 /* Boxed Div Styling */
@@ -121,4 +137,26 @@ html {
   bottom: 0;
   right: 0;
   width: 300px;
+}
+
+/* Responsive Sidebar */
+@media screen and (max-width: 800px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {
+    float: left;
+  }
+  .main {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
 }

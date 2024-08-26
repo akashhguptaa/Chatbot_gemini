@@ -2,15 +2,19 @@ from main_db import session
 from base import messages
 from flask import render_template, url_for, Flask, request, Response
 from response_ import model
+from queries import updating_data
 
 import json
-
-def old_memory(old_messages):
-    chat_session = model.start_chat(
+start = 1003
+chat_session = model.start_chat(
         history=[
-
         ]
     )
+
+
+
+def old_memory(old_messages):
+    
     query = "This is the conversation between a bot and user now based on that answer the next questions"
     response = chat_session.send_message( query + old_messages)
     
@@ -21,8 +25,16 @@ id_no = "1008"  # assuming `id_` is a string
 
 # Use a database query to check if the value exists
 data = session.query(messages.chat_message, messages.title).filter(messages.id_ == 1003)
-# count = 0
-def gemini_data(prompt, data_to_db):
+
+#getting the last key
+for i in data:
+    messages = list(i)[0]
+    key_data = [i for i, _ in messages.items()]
+# print(key_data)
+
+count = int(key_data[-1])
+
+def bot_res(prompt, data_to_db):
     response = chat_session.send_message(prompt, stream=True)
     for chunks in response:
         data  = chunks.text.replace("*", "")
@@ -40,8 +52,8 @@ def for_1004():
     for i in data:
         # count += 1
         old_messages = list(i)[0]
-        old_memory(old_messages)
-        return render_template('old_chats.html', old_messages = old_messages)
+        old_memory(str(old_messages))
+        return render_template('old_chats.html', old_messages=old_messages, data= data)
 
 @app.route("/get")
 def get_bot_response():
@@ -60,6 +72,8 @@ def get_bot_response():
             yield f"data: {response}\n\n"
 
     return Response(generate(), content_type='text/event-stream')
+
+
 if __name__ == "__main__":
     app.run(debug = True, port = 8000)
 

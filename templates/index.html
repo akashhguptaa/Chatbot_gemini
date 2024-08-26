@@ -11,12 +11,9 @@
   </head>
   <body>
       <div class="sidebar">
-        <a href="#home\n">Home</a>
-        <a href="#tutorials">Tutorials</a>
-        <a href="#courses">Courses</a>
-        <a href="#jobs">Jobs</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        {% for title in data %}
+        <a href="#akash">{{ title[1].replace('\n', '') }}</a>
+      {% endfor %}
       </div>
       <div class="main">
         <button type="button">Click Me!</button>
